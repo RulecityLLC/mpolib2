@@ -1,0 +1,1 @@
+add_executable(std_test_exiter std_test_exiter.cpp)

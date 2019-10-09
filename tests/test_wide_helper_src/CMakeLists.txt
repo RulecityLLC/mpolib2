@@ -1,0 +1,1 @@
+add_executable(test_wide_helper test_wide_helper.cpp)

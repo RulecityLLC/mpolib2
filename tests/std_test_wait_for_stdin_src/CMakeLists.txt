@@ -1,0 +1,1 @@
+add_executable(std_test_wait_for_stdin std_test_wait_for_stdin.cpp)

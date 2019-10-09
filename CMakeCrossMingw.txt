@@ -1,0 +1,10 @@
+# when cross-compiling mingw, add this to the CMake command:
+# -DCMAKE_TOOLCHAIN_FILE={yourpath}/CMakeCrossMingw.txt
+
+set(CMAKE_SYSTEM_NAME Windows)
+
+set(CMAKE_C_COMPILER i686-w64-mingw32-gcc)
+set(CMAKE_CXX_COMPILER i686-w64-mingw32-g++)
+
+# zlib needs this
+set(CMAKE_RC_COMPILER i686-w64-mingw32-windres)

@@ -1,0 +1,26 @@
+#include <iostream>
+//#include <vector>
+#include <string>
+#include <set>
+#include <mpolib2/mpo_client.h>
+#include <mpolib2/mpo_server.h>
+#include <mpolib2/mpo_http.h>
+#include <mpolib2/mpo_httpd.h>
+#include <mpolib2/mpo_misc.h>
+#include <mpolib2/mpo_numstr.h>
+#include <mpolib2/mpo_fileio.h>
+#include <mpolib2/mpo_timer.h>
+#include <mpolib2/mpo_net_stream.h>
+#include <mpolib2/mpo_memory_stream.h>
+#include <mpolib2/mpo_file_stream.h>
+#include <mpolib2/mpo_nat_stream.h>
+#include <mpolib2/mpo_socket_presenter.h>
+#include <mpolib2/mpo_container.h>
+#include <mpolib2/mpo_ipc.h>
+#include <mpolib2/mpo_thread.h>
+#include <mpolib2/mpo_file_finder.h>
+#include <mpolib2/mpo_process.h>
+#include <mpolib2/mpo_udp.h>
+
+#include "mpo_test_framework.h"
+#include "mocks.h"
