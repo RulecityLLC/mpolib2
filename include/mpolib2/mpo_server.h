@@ -37,39 +37,26 @@
 
 using namespace std;
 
-class EXPORT_ME mpo_server
+class IMpoServer
 {
 public:
-	mpo_server();
-	~mpo_server();
-
-	void shutdown();
-	
 	// initializes a socket for incoming TCP connections by binding and listening on the port specified.
 	// 'cpszHostIP4' should be the IP address of the interface to listen on.. NULL means to listen on all interfaces
-	// Returns true on success or false on error.
-	bool initialize(unsigned int port, const char *cpszHostIP4 = NULL);
+	// Throws exception on error.
+	virtual void Initialize(unsigned int port, const char *cpszHostIP4 = NULL) = 0;
 
-private:
-	// Polls for a new incoming connection and if it finds one, it populates socket, and socket_info
-	// with relevant data and returns true.  Socket will contain the new socket of the accepted connection.
-	// 'length' must be passed in as the sizeof the sockaddr_in struct (not sockaddr),
-	// and it will be returned as the final size of the structure.
-	// There really is a reason for this, so be careful about changing it.
-	// Returns false if there is no new connection waiting to be accepted.
-	bool accept_connection(int &socket, struct sockaddr *socket_info,
-		int *length, unsigned int timeout_ms);
-
-public:
-	// A less confusing way to accept connections.
+	// How to accept incoming connections.
 	// Returns an auto-pointer to an instance of mpo_socket_presenter (makes getting info easier) on success,
-	//  or NULL if no connection is present.
-	mpo_sockpres_autoptr accept_connection(unsigned int timeout_ms);
+	//  or an NULL'd pointer if no connection is present.
+	virtual mpo_sockpres_autoptr Accept(unsigned int timeout_ms) = 0;
+};
 
-private:
-	bool m_initialized;	// keeps track of whether we are initialized or not
-	MPO_SOCKET m_listening_socket;	// the parent listening socket
-	struct sockaddr_in m_servaddr;	// listening socket info
+typedef shared_ptr<IMpoServer> IMpoServerSPtr;
+
+class EXPORT_ME MpoServerFactory
+{
+public:
+	static IMpoServerSPtr CreateInstance();
 };
 
 #endif // MPO_SERVER_H

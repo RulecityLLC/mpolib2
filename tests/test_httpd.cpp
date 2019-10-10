@@ -101,22 +101,21 @@ void *http_client_thread(void *pData)
 
 void test_httpd1()
 {
-	mpo_server srv;
+	IMpoServerSPtr srv = MpoServerFactory::CreateInstance();
+	IMpoServer *pServer = srv.get();
 
 	unsigned int uPort = 5555;
-	bool bRes = srv.initialize(uPort);
-
-	TEST_REQUIRE(bRes);
+	pServer->Initialize(uPort);
 
 	CCliData dat(uPort);
 
 	mpo_threadID id;
-	bRes = mpo_create_thread(&id, http_client_thread, &dat);
+	bool bRes = mpo_create_thread(&id, http_client_thread, &dat);
 	
 	TEST_REQUIRE(bRes);
 
 	// wait for client connection
-	mpo_sockpres_autoptr sock = srv.accept_connection(5000);
+	mpo_sockpres_autoptr sock = pServer->Accept(5000);
 
 	// make sure we got a connection
 	TEST_CHECK(sock.get() != NULL);
@@ -209,24 +208,24 @@ TEST_CASE(httpd1)
 
 void test_httpd2()
 {
-	mpo_server srv;
+	IMpoServerSPtr srv = MpoServerFactory::CreateInstance();
+	IMpoServer *pServer = srv.get();
+
 	string s;
 
 	unsigned int uPort = 5555;
-	bool bRes = srv.initialize(uPort);
-
-	TEST_REQUIRE(bRes);
+	pServer->Initialize(uPort);
 
 	CCliData dat(uPort);
 	dat.m_bRequestDisconnect = false;	// don't disconnect
 
 	mpo_threadID id;
-	bRes = mpo_create_thread(&id, http_client_thread, &dat);
+	bool bRes = mpo_create_thread(&id, http_client_thread, &dat);
 	
 	TEST_REQUIRE(bRes);
 
 	// wait for client connection
-	mpo_sockpres_autoptr sock = srv.accept_connection(5000);
+	mpo_sockpres_autoptr sock = pServer->Accept(5000);
 
 	// make sure we got a connection
 	TEST_CHECK(sock.get() != NULL);
@@ -353,24 +352,24 @@ void *http_post_thread(void *dontcare)
 
 void test_httpd_post()
 {
-	mpo_server srv;
+	IMpoServerSPtr srv = MpoServerFactory::CreateInstance();
+	IMpoServer *pServer = srv.get();
+
 	string s;
 
 	unsigned int uPort = 5555;
-	bool bRes = srv.initialize(uPort);
-
-	TEST_REQUIRE(bRes);
+	pServer->Initialize(uPort);
 
 	CCliData dat(uPort);
 	dat.m_bRequestDisconnect = false;	// don't disconnect
 
 	mpo_threadID id;
-	bRes = mpo_create_thread(&id, http_post_thread, NULL);
+	bool bRes = mpo_create_thread(&id, http_post_thread, NULL);
 	
 	TEST_REQUIRE(bRes);
 
 	// wait for client connection
-	mpo_sockpres_autoptr sock = srv.accept_connection(5000);
+	mpo_sockpres_autoptr sock = pServer->Accept(5000);
 
 	// make sure we got a connection
 	TEST_CHECK(sock.get() != NULL);

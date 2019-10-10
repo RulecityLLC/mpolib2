@@ -5,9 +5,10 @@ TEST_CASE(server1)
 	unsigned int uPort = 10000;
 	bool bRes = false;
 
-	mpo_server srv;
-	bRes = srv.initialize(uPort, "127.0.0.1");
-	TEST_REQUIRE(bRes);
+	IMpoServerSPtr srv = MpoServerFactory::CreateInstance();
+	IMpoServer *pServer = srv.get();
+
+	pServer->Initialize(uPort, "127.0.0.1");
 
 	IMpoClientSPtr cli = MpoClientFactory::CreateInstance();
 	IMpoClient *pClient = cli.get();
@@ -15,7 +16,7 @@ TEST_CASE(server1)
 	TEST_CHECK(res == NET_OK);
 
 	// accept connection
-	mpo_sockpres_autoptr pres = srv.accept_connection(5000);
+	mpo_sockpres_autoptr pres = pServer->Accept(5000);
 	TEST_REQUIRE(pres.get());
 	TEST_CHECK_EQUAL(pres->GetIPString(), "127.0.0.1");
 
@@ -28,8 +29,6 @@ TEST_CASE(server1)
 
 	// workaround WINE quirky behavior
 	TEST_CHECK((strIP  ==  "127.0.0.1") || (strIP == "127.12.34.56"));
-
-	srv.shutdown();
 }
 
 TEST_CASE(timer)

@@ -28,7 +28,7 @@
 // mpo_server.cpp
 // by Matt Ownby
 
-#include <mpolib2/mpo_server.h>
+#include "mpo_server_internal.h"
 #include <string.h>	// for memset
 
 #ifdef WIN32
@@ -38,19 +38,12 @@
 #include <fcntl.h>
 #endif
 
-mpo_server::mpo_server()
+IMpoServerSPtr MpoServerFactory::CreateInstance()
 {
-	m_initialized = false;
-	m_listening_socket = 0;
+	return IMpoServerSPtr(new MpoServer(), MpoServer::deleter());
 }
 
-// destructor
-mpo_server::~mpo_server()
-{
-	shutdown();
-}
-
-void mpo_server::shutdown()
+void MpoServer::Shutdown()
 {
 	// if our socket is open
 	if (m_listening_socket > 0)
@@ -61,7 +54,7 @@ void mpo_server::shutdown()
 }
 
 // Initiallizes the server to a listen for connections on the given port
-bool mpo_server::initialize(unsigned int port, const char *cpszHostIP4)
+void MpoServer::Initialize(unsigned int port, const char *cpszHostIP4)
 {
 	bool result = false;
 	
@@ -105,13 +98,16 @@ bool mpo_server::initialize(unsigned int port, const char *cpszHostIP4)
 	// if socket was opened but our result eventually failed ...
 	if ((m_listening_socket > 0) && (!result))
 	{
-		shutdown();
+		Shutdown();
 	}
 
-	return result;
+	if (!result)
+	{
+		throw runtime_error("Initialization failed");
+	}
 }
 
-bool mpo_server::accept_connection(int &socket, struct sockaddr *socket_info, int *length,
+bool MpoServer::accept_connection(int &socket, struct sockaddr *socket_info, int *length,
 				   unsigned int timeout_ms)
 {
 	
@@ -152,7 +148,7 @@ bool mpo_server::accept_connection(int &socket, struct sockaddr *socket_info, in
 	return result;
 }
 
-mpo_sockpres_autoptr mpo_server::accept_connection(unsigned int timeout_ms)
+mpo_sockpres_autoptr MpoServer::Accept(unsigned int timeout_ms)
 {
 	mpo_sockpres_autoptr pRes;	// defaults to NULL
 	int socket = 0;

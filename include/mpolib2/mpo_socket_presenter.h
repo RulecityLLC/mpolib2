@@ -15,7 +15,6 @@ typedef shared_ptr<mpo_socket_presenter> mpo_sockpres_autoptr;
 class EXPORT_ME mpo_socket_presenter : public MpoDeleter
 {
 	friend class MpoNetStream;
-	friend class MpoSSLStream;
 public:
 	// This is the only way to get an instance of this class
 	static mpo_sockpres_autoptr GetInstance(MPO_SOCKET socket, const sockaddr_in &socket_info);

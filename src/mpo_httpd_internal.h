@@ -217,7 +217,8 @@ private:
 	void *data;	// user-defined data passed to callback
 
 	// to accept connections
-	mpo_server m_srv;
+	IMpoServerSPtr m_srv;
+	IMpoServer *m_pServer;
 
 	// to communicate with child thread
 	CListenerComm m_comm;

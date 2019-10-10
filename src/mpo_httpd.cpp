@@ -744,8 +744,13 @@ IMpoHttpdListenerSPtr mpo_httpd_listener::CreateInstance(unsigned int uListenPor
 
 	mpo_httpd_listener *pInstance = new mpo_httpd_listener();
 
+	pInstance->m_srv = MpoServerFactory::CreateInstance();
+	pInstance->m_pServer = pInstance->m_srv.get();
+
 	// try to bind to the port
-	if (pInstance->m_srv.initialize(uListenPort)) {
+	try
+	{
+		pInstance->m_pServer->Initialize(uListenPort);
 		pInstance->m_pCallback = pCallback;
 		pInstance->data = data;
 		pInstance->m_comm.pInstance = pInstance;    // so child thread can use private instance variables
@@ -760,7 +765,7 @@ IMpoHttpdListenerSPtr mpo_httpd_listener::CreateInstance(unsigned int uListenPor
 		}
 	}
 		// else binding failed
-	else {
+	catch (std::exception &) {
 		errorMsg = "Could not listen on port ";
 		errorMsg += numstr::ToStr(uListenPort);
 	}
@@ -815,7 +820,7 @@ void *mpo_httpd_listener::ListenerThread(void *pListenerComm)
 	while (!pComm->m_bParentRequestedQuit)
 	{
 		// see if we have a new connection
-		mpo_sockpres_autoptr socket = pComm->pInstance->m_srv.accept_connection(125);
+		mpo_sockpres_autoptr socket = pComm->pInstance->m_pServer->Accept(125);
 
 		// if we have a connection, then spin off a thread to deal with it
 		if (socket.get() != NULL)
