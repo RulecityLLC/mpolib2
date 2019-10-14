@@ -40,7 +40,7 @@ void test_process1()
 		{
 			break;
 		}
-		make_delay(1);
+		MpoTimerUtil::MakeDelay(1);
 	}
 	TEST_CHECK_EQUAL("hi", s);
 
@@ -58,7 +58,7 @@ void test_process1()
 		{
 			break;
 		}
-		make_delay(1);
+		MpoTimerUtil::MakeDelay(1);
 	}
 	TEST_CHECK_EQUAL("error", s);
 
@@ -71,14 +71,14 @@ void test_process1()
 	{
 		string s1 = pProcess->ReadStdOutEx();
 		s += s1;
-		make_delay(1);
+		MpoTimerUtil::MakeDelay(1);
 	}
 	TEST_CHECK_EQUAL("there", s);
 
 //printf("test_process1 about to wait for child process to exit\n");
 
 	// give other process a chance to close its stdin pipe
-	make_delay(1);
+	MpoTimerUtil::MakeDelay(1);
 	s = "this should fail";
 	TEST_CHECK_THROW(pProcess->WriteStdInEx(s.data(), s.size()));
 
@@ -141,7 +141,7 @@ void test_process1kill()
 		{
 			break;
 		}
-		make_delay(1);
+		MpoTimerUtil::MakeDelay(1);
 	}
 
 	// kill the process forcefully
@@ -409,7 +409,7 @@ void test_process_exiter4()
 
 		string s = pProcess->ReadStdOutEx();
 		stTotalBytes += s.size();
-		make_delay(1);
+		MpoTimerUtil::MakeDelay(1);
 	}
 
 	// now process isn't running anymore, we should be able to read the remainder
@@ -455,7 +455,7 @@ void test_process_stdin()
 	TEST_REQUIRE(bRes);
 
 	// give stdin thread a chance to go to sleep
-	make_delay(1);
+	MpoTimerUtil::MakeDelay(1);
 
 	// close all pipes which means process _should_ exit immediately
 	pProcess->CloseStdIOThreads();

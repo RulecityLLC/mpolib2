@@ -238,7 +238,7 @@ void test_pipe_two_threads_closing()
 	// wait for other thread to start closing
 	while (!g_bOkToClose)
 	{
-		make_delay(1);
+		MpoTimerUtil::MakeDelay(1);
 	}
 
 	// now close pipe0 before the thread has closed it

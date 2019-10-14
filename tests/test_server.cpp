@@ -34,9 +34,9 @@ TEST_CASE(server1)
 TEST_CASE(timer)
 {
 	unsigned int uMs = 100;
-	unsigned int uStartMs = refresh_timer();
-	make_delay(uMs);
-	unsigned int uDiff = refresh_timer() - uStartMs;
+	unsigned int uStartMs = MpoTimerUtil::RefreshTimer();
+	MpoTimerUtil::MakeDelay(uMs);
+	unsigned int uDiff = MpoTimerUtil::RefreshTimer() - uStartMs;
 	int iAbs = (int) uDiff - uMs;
 	iAbs = abs(iAbs);
 	TEST_CHECK(iAbs < 20);

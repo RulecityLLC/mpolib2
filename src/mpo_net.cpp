@@ -389,7 +389,7 @@ EXPORT_ME int better_select(MPO_SOCKET socket, select_type which_set, unsigned i
 	// safety check
 	if (rset || wset || eset)
 	{
-		unsigned int timer = refresh_timer();
+		unsigned int timer = MpoTimerUtil::RefreshTimer();
 		timeout.tv_sec = timeout_ms / 1000;
 		timeout.tv_usec = (timeout_ms % 1000) * 1000;
 
@@ -405,14 +405,14 @@ EXPORT_ME int better_select(MPO_SOCKET socket, select_type which_set, unsigned i
 			if ((result > 0) && (!FD_ISSET(socket, &the_set)))
 			{
 				// and if we've timed out, then set 'result' to timeout status and exit the loop
-				if (get_elapsed_ms(timer) > timeout_ms)
+				if (MpoTimerUtil::GetElapsedMs(timer) > timeout_ms)
 				{
 					result = 0;
 					break;
 				}
 				else
 				{
-					make_delay(1);	// else sleep in case select is returning instantly
+					MpoTimerUtil::MakeDelay(1);	// else sleep in case select is returning instantly
 				}
 			}
 			// else if this socket triggered the event or if we timed out or got an error,

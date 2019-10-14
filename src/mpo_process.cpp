@@ -420,14 +420,14 @@ template <class _ch> bool MpoProcess::LaunchTemplate(const list <basic_string<_c
 		{
 			mpo_create_thread(&m_threadOut, StdOutThread, this);
 			m_bStdOutNeedsJoin = true;	// need to wait for this thread later to clean up resources
-			while (!m_bStdOutRunning) make_delay(1);	// wait for thread to come online
+			while (!m_bStdOutRunning) MpoTimerUtil::MakeDelay(1);	// wait for thread to come online
 		}
 
 		if (bCaptureStdErr)
 		{
 			mpo_create_thread(&m_threadErr, StdErrThread, this);
 			m_bStdErrNeedsJoin = true;	// need to wait for this thread later to clean up resources
-			while (!m_bStdErrRunning) make_delay(1);	// wait for thread to come online
+			while (!m_bStdErrRunning) MpoTimerUtil::MakeDelay(1);	// wait for thread to come online
 		}
 
 		// Signal to child threads that we know they're running.
@@ -876,7 +876,7 @@ void MpoProcess::AddToBuf(MpoProcess *pProc, string *pStrDstBuf, const void *pSr
 	// (but we don't want to wait if the parent process is telling us to shutdown anyway)
 	while ((stBufSize > MPO_PROCESS_MAX_BUFFER_SIZE_BYTES) && (pProc->m_bThreadsShouldBeRunning))
 	{
-		make_delay(250);	// no point hogging cpu, and also we don't want to waste cycles by locking/unlocking the mutex excessively
+		MpoTimerUtil::MakeDelay(250);	// no point hogging cpu, and also we don't want to waste cycles by locking/unlocking the mutex excessively
 		pProc->m_pMutex->Lock();
 		stBufSize = pStrDstBuf->size();
 		pProc->m_pMutex->Unlock();
@@ -892,7 +892,7 @@ void *MpoProcess::StdOutThread(void *pInstance)
 //	printf("StdOutThread: m_bStdOutRunning set to true\n");	// remove
 
 	// wait for parent thread to know that we're running
-	while (!pProc->m_bParentAckChildren) make_delay(1);
+	while (!pProc->m_bParentAckChildren) MpoTimerUtil::MakeDelay(1);
 
 	// do work
 	while (pProc->m_bThreadsShouldBeRunning)
@@ -971,7 +971,7 @@ void *MpoProcess::StdErrThread(void *pInstance)
 //printf("StdErrThread: m_bStdErrRunning set to true\n");	// remove
 
 	// wait for parent thread to know that we're running
-	while (!pProc->m_bParentAckChildren) make_delay(1);
+	while (!pProc->m_bParentAckChildren) MpoTimerUtil::MakeDelay(1);
 
 	// do work
 	while (pProc->m_bThreadsShouldBeRunning)

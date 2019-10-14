@@ -19,7 +19,7 @@ void *child_thread1(void *pParm)
 		pComm->bChildLocked = true;
 
 		// sleep for a little while so parent can verify that it had to wait to get the mutex lock
-		make_delay(250);
+		MpoTimerUtil::MakeDelay(250);
 		bRes = pMutex->Unlock();
 		if (bRes != true) pComm->bChildError = true;
 		pComm->bChildLocked = false;
@@ -51,14 +51,14 @@ void test_thread1()
 	// wait for child to lock
 	while (comm.bChildLocked == false)
 	{
-		make_delay(1);
+		MpoTimerUtil::MakeDelay(1);
 	}
 
-	unsigned int uTimeMs = refresh_timer();
+	unsigned int uTimeMs = MpoTimerUtil::RefreshTimer();
 	bool bRes = pMutex->Lock();
 	TEST_REQUIRE(bRes);	// this should always return true because Lock() won't return until a lock has been achieved
 
-	unsigned int uElapsedMs = get_elapsed_ms(uTimeMs);
+	unsigned int uElapsedMs = MpoTimerUtil::GetElapsedMs(uTimeMs);
 	TEST_CHECK(uElapsedMs > 125);	// we should've waited at least this long
 
 	bRes = mpo_wait_thread(&threadID);

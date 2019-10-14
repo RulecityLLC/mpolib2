@@ -1,7 +1,7 @@
 /*
  * mpo_timer.h
  *
- * Copyright (C) 2005 Matthew P. Ownby
+ * Copyright (C) 2019 Matthew P. Ownby
  *
  * This file is part of MPOLIB, a multi-purpose library
  *
@@ -29,35 +29,36 @@
 #define TIMER_H
 
 #include "mpo_dll.h"
-
-#include <mpolib2/mpo_fileio.h>	// for UINT64 type
+#include "mpo_deleter.h"
+#include "mpo_types.h"	// for UINT64 type
 #include <string>
 
-using namespace std;
+using std::string;
 
-// returns a time value in ms that can be compared to subsequent time
-// values to compute elapsed time.  The time value is only useful when
-// compared against other time values.
-EXPORT_ME unsigned int refresh_timer();
+// static utility methods
+class EXPORT_ME MpoTimerUtil
+{
+public:
+	// returns a time value in ms that can be compared to subsequent time
+	// values to compute elapsed time.  The time value is only useful when
+	// compared against other time values.
+	static unsigned int RefreshTimer();
 
-// returns subtracts the old time from the current time and returns
-// the result (in ms)
-EXPORT_ME unsigned int get_elapsed_ms(unsigned int old_time);
+	// returns subtracts the old time from the current time and returns
+	// the result (in ms)
+	static unsigned int GetElapsedMs(unsigned int old_time);
 
-// Returns true if the elapsed time is equal or greater to the interval
-EXPORT_ME bool time_elapsed(unsigned int interval, unsigned int old_time);
+	// sleeps for a certain amount of time
+	static void MakeDelay(unsigned int ms);
 
-// sleeps for a certain amount of time
-EXPORT_ME void make_delay(unsigned int ms);
+	// gets a 64-bit random number, influenced by current system time
+	static MPO_UINT64 GetRandNum64();
 
-// gets a 64-bit random number, influenced by current system time
-EXPORT_ME MPO_UINT64 get_rand_num64();
+	static unsigned int GetRandNum32();
 
-// gets a 32-bit random number
-EXPORT_ME unsigned int get_rand_num32();
-
-// converts a remaining 'seconds' value to days, hours, minute, and seconds
-EXPORT_ME string SToStr(unsigned int uS);
+	// converts a remaining 'seconds' value to days, hours, minute, and seconds
+	static string SToStr(unsigned int uS);
+};
 
 ////////
 
@@ -70,12 +71,12 @@ public:
 	virtual unsigned int GetElapsedMs(unsigned int uOldTime) = 0;
 };
 
-class MpoTimer : public IMpoTimer
+typedef shared_ptr<IMpoTimer> IMpoTimerSPtr;
+
+class EXPORT_ME MpoTimerFactory
 {
 public:
-	MpoTimer();
-	unsigned int GetCurValMs();
-	unsigned int GetElapsedMs(unsigned int uOldTime);
+	static IMpoTimerSPtr CreateInstance();
 };
 
 #endif

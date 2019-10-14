@@ -253,7 +253,7 @@ void MpoPipe::Close(unsigned int uMsToWait)
 
 		if (uMsToWait != 0)
 		{
-			make_delay(uMsToWait);
+			MpoTimerUtil::MakeDelay(uMsToWait);
 		}
 
 		m_bPipeOpen = false;

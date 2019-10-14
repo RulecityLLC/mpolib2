@@ -189,7 +189,7 @@ void test_httpd1()
 	// TODO : change this to something more efficient
 	while (!dat.m_bClientDone)
 	{
-		make_delay(10);
+		MpoTimerUtil::MakeDelay(10);
 	}
 
 	// clean-up
@@ -301,7 +301,7 @@ void test_httpd2()
 	// TODO : change this to something more efficient
 	while (!dat.m_bClientDone)
 	{
-		make_delay(10);
+		MpoTimerUtil::MakeDelay(10);
 	}
 
 	// clean-up
@@ -550,7 +550,7 @@ void *listener2_callback(void *pData)
 	// wait for parent to signal us to quit
 	while (!pComm->IsQuitRequested())
 	{
-		make_delay(1);
+		MpoTimerUtil::MakeDelay(1);
 	}
 
 	return NULL;

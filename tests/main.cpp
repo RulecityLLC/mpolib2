@@ -429,9 +429,9 @@ TEST_CASE(unit_conversion)
 
 TEST_CASE(time_conversion)
 {
-	TEST_CHECK((SToStr(3456000) == "40 days"));
-	TEST_CHECK((SToStr(6480000) == "75 days"));
-	TEST_CHECK((SToStr(6534000) == "75 days, 15 hours"));
+	TEST_CHECK((MpoTimerUtil::SToStr(3456000) == "40 days"));
+	TEST_CHECK((MpoTimerUtil::SToStr(6480000) == "75 days"));
+	TEST_CHECK((MpoTimerUtil::SToStr(6534000) == "75 days, 15 hours"));
 }
 
 #ifdef HAVE_ZLIB_H

@@ -1,7 +1,7 @@
 /*
  * mpo_timer.cpp
  *
- * Copyright (C) 2005 Matthew P. Ownby
+ * Copyright (C) 2019 Matthew P. Ownby
  *
  * This file is part of MPOLIB, a multi-purpose library
  *
@@ -28,14 +28,11 @@
 #include <mpolib2/mpo_timer.h>
 #include <mpolib2/mpo_numstr.h>
 #include <stdexcept>
+#include "mpo_timer_internal.h"
 
 #ifdef WIN32
 static double g_d641000DivPerfFreq;	// for QueryPerformanceFrequency
 static bool g_bPerfFreqInitialized = false;
-
-// not sure if these are really necessary
-#include <winsock2.h>
-#include <windows.h>
 
 #else
 
@@ -45,7 +42,7 @@ static bool g_bPerfFreqInitialized = false;
 #endif
 
 
-EXPORT_ME unsigned int refresh_timer()
+unsigned int MpoTimerUtil::RefreshTimer()
 {
 	unsigned int result = 0;
 
@@ -90,25 +87,13 @@ EXPORT_ME unsigned int refresh_timer()
 }
 
 // returns the difference between the current time and the old time
-EXPORT_ME unsigned int get_elapsed_ms(unsigned int old_time)
+unsigned int MpoTimerUtil::GetElapsedMs(unsigned int old_time)
 {
-	return(refresh_timer() - old_time);
-}
-
-EXPORT_ME bool time_elapsed(unsigned int interval, unsigned int old_time)
-{
-	if (refresh_timer() - old_time >= interval)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return(RefreshTimer() - old_time);
 }
 
 // sleeps for a certain period of time
-EXPORT_ME void make_delay(unsigned int ms)
+void MpoTimerUtil::MakeDelay(unsigned int ms)
 {
 #ifdef WIN32
 	Sleep(ms);
@@ -117,7 +102,7 @@ EXPORT_ME void make_delay(unsigned int ms)
 #endif
 }
 
-EXPORT_ME MPO_UINT64 get_rand_num64()
+MPO_UINT64 MpoTimerUtil::GetRandNum64()
 {
 	MPO_UINT64 result = 0;
 
@@ -156,7 +141,7 @@ EXPORT_ME MPO_UINT64 get_rand_num64()
 	return result;
 }
 
-EXPORT_ME unsigned int get_rand_num32()
+unsigned int MpoTimerUtil::GetRandNum32()
 {
 	unsigned int result = 0;
 
@@ -191,7 +176,7 @@ EXPORT_ME unsigned int get_rand_num32()
 	return result;
 }
 
-EXPORT_ME string SToStr(unsigned int uS)
+string MpoTimerUtil::SToStr(unsigned int uS)
 {
 	const unsigned int S_PER_MIN = 60;
 	const unsigned int MIN_PER_HOUR = 60;
@@ -232,16 +217,12 @@ EXPORT_ME string SToStr(unsigned int uS)
 
 //////////
 
-MpoTimer::MpoTimer()
-{
-}
-
 unsigned int MpoTimer::GetCurValMs()
 {
-	return refresh_timer();
+	return MpoTimerUtil::RefreshTimer();
 }
 
 unsigned int MpoTimer::GetElapsedMs(unsigned int uOldTime)
 {
-	return get_elapsed_ms(uOldTime);
+	return MpoTimerUtil::GetElapsedMs(uOldTime);
 }

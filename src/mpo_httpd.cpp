@@ -69,7 +69,7 @@ StreamMsg mpo_httpd::ReadPartialRequest(unsigned int uTimeoutMs)
 
 StreamMsg mpo_httpd::ReadRequest(unsigned int uTimeoutMs)
 {
-	unsigned int uStartTime = refresh_timer();
+	unsigned int uStartTime = MpoTimerUtil::RefreshTimer();
 	StreamMsg msg = MSG_ERROR;
 
 	// if the client has disconnected (or should be disconnected due to requesting a disconnect)
@@ -88,7 +88,7 @@ StreamMsg mpo_httpd::ReadRequest(unsigned int uTimeoutMs)
 	// go until we time out or fail
 	for (;;)
 	{
-		unsigned int uElapsed = get_elapsed_ms(uStartTime);
+		unsigned int uElapsed = MpoTimerUtil::GetElapsedMs(uStartTime);
 		if (uElapsed > uTimeoutMs)
 		{
 			msg = MSG_TIMEOUT;
@@ -419,7 +419,7 @@ StreamMsg mpo_httpd::SendHeaders(unsigned int uTimeoutMs)
 
 StreamMsg mpo_httpd::Send(const void *buffer, size_t bytes_can_send, size_t *bytes_sent, unsigned int uTimeoutMs)
 {
-	unsigned int uStartTime = refresh_timer();
+	unsigned int uStartTime = MpoTimerUtil::RefreshTimer();
 	StreamMsg msg = MSG_ERROR;
 
 	// if the entire content has been sent
@@ -484,7 +484,7 @@ StreamMsg mpo_httpd::Send(const void *buffer, size_t bytes_can_send, size_t *byt
 		// IMPORTANT:
 		// This recalculation of uElapsed comes after the call to m_pStream->Write to ensure that m_pStream->Write is called at least one time.
 		// Otherwise, if the CPU is saturated, m_pStream->Write may never be called.
-		uElapsed = get_elapsed_ms(uStartTime);
+		uElapsed = MpoTimerUtil::GetElapsedMs(uStartTime);
 		if (uElapsed > uTimeoutMs)
 		{
 			msg = MSG_TIMEOUT;
@@ -801,7 +801,7 @@ mpo_httpd_listener::~mpo_httpd_listener()
 		// TODO : after a maximum period of time, forcefully kill the child thread
 		while (!m_comm.m_bChildHasQuit)
 		{
-			make_delay(1);
+			MpoTimerUtil::MakeDelay(1);
 		}
 		
 		// free up resources
@@ -904,7 +904,7 @@ void *mpo_httpd_listener::ListenerThread(void *pListenerComm)
 		// TODO : wait a maximum amount of time, then kill the thread forcefully
 		while (!mi->second.m_pThreadComm->m_bChildHasQuit)
 		{
-			make_delay(1);
+			MpoTimerUtil::MakeDelay(1);
 		}
 
 		// clean up resources used by the thread

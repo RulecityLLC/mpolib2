@@ -132,10 +132,10 @@ StreamMsg StreamFull::Read(INonblockingStream *pStream, void *buf, size_t stByte
 	unsigned char *pu8Buf = (unsigned char *) buf;
 
 	stBytesRead = 0;
-	unsigned int uMsTimer = refresh_timer();
+	unsigned int uMsTimer = MpoTimerUtil::RefreshTimer();
 
 	// go until we timeout (or fill our goal)
-	while ((refresh_timer() - uMsTimer) < uTimeoutMs)
+	while ((MpoTimerUtil::RefreshTimer() - uMsTimer) < uTimeoutMs)
 	{
 		stCurBytesRead = pStream->Read(pu8Buf, stBytesLeft, uTimeoutMs);
 		stBytesRead += stCurBytesRead;
@@ -171,7 +171,7 @@ StreamMsg StreamFull::Read(INonblockingStream *pStream, void *buf, size_t stByte
 			}
 			// else keep waiting to write
 		}
-		make_delay(1);
+		MpoTimerUtil::MakeDelay(1);
 	}
 
 	// If we got something before timing out, then we do not consider it a timeout.
@@ -191,10 +191,10 @@ StreamMsg StreamFull::Write(INonblockingStream *pStream, const void *buf, size_t
 	size_t stBytesLeft = stBytesToWrite;
 	const unsigned char *pu8Buf = (const unsigned char *) buf;
 
-	unsigned int uMsTimer = refresh_timer();
+	unsigned int uMsTimer = MpoTimerUtil::RefreshTimer();
 
 	// go until we timeout (or fill our goal)
-	while ((refresh_timer() - uMsTimer) < uTimeoutMs)
+	while ((MpoTimerUtil::RefreshTimer() - uMsTimer) < uTimeoutMs)
 	{
 		stCurBytesWritten = pStream->Write(pu8Buf, stBytesLeft, uTimeoutMs);
 		stBytesLeft -= stCurBytesWritten;
@@ -219,7 +219,7 @@ StreamMsg StreamFull::Write(INonblockingStream *pStream, const void *buf, size_t
 			}
 			// else keep waiting to write
 		}
-		make_delay(1);
+		MpoTimerUtil::MakeDelay(1);
 	}
 
 	return res;
