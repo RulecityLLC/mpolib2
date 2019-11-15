@@ -6,6 +6,37 @@ CHECK_INCLUDE_FILE (sys/time.h HAVE_SYS_TIME_H)
 CHECK_INCLUDE_FILE (unistd.h HAVE_UNISTD_H)
 configure_file ( ${CMAKE_SOURCE_DIR}/src/mpolib_config_cmake.h ${CMAKE_BINARY_DIR}/mpolib_config.h )
 
+# for convenience
+set(header_path "${CMAKE_SOURCE_DIR}/include/mpolib2")
+
+# headers to be installed
+set(MPOLIB_PUBLIC_INCLUDE
+		${header_path}/mpo_client.h
+		${header_path}/mpo_container.h
+		${header_path}/mpo_deleter.h
+		${header_path}/mpo_dll.h
+		${header_path}/mpo_file_finder.h
+		${header_path}/mpo_fileio.h
+		${header_path}/mpo_file_stream.h
+		${header_path}/mpo_httpd.h
+		${header_path}/mpo_http.h
+		${header_path}/mpo_ipc.h
+		${header_path}/mpo_memory_stream.h
+		${header_path}/mpo_misc.h
+		${header_path}/mpo_nat_stream.h
+		${header_path}/mpo_net.h
+		${header_path}/mpo_net_stream.h
+		${header_path}/mpo_numstr.h
+		${header_path}/mpo_process.h
+		${header_path}/mpo_server.h
+		${header_path}/mpo_socket_presenter.h
+		${header_path}/mpo_stream.h
+		${header_path}/mpo_thread.h
+		${header_path}/mpo_timer.h
+		${header_path}/mpo_types.h
+		${header_path}/mpo_udp.h
+		)
+
 # source files to be built
 set(MPOLIB_SRCS
 		mpo_client.cpp
@@ -32,37 +63,7 @@ set(MPOLIB_SRCS
 		md5c.cpp
         )
 
-# headers to be installed
-set(MPOLIB_PUBLIC_INCLUDE
-	${CMAKE_SOURCE_DIR}/include/mpolib2/base64.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_client.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_container.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_deleter.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_dll.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_file_finder.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_fileio.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_file_stream.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_httpd.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_http.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_ipc.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_memory_stream.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_misc.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_nat_stream.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_net.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_net_stream.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_numstr.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_process.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_server.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_socket_presenter.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_ssl_stream.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_stream.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_thread.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_timer.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_types.h
-	${CMAKE_SOURCE_DIR}/include/mpolib2/mpo_udp.h
-	)
-
-add_library(mpo2static ${MPOLIB_SRCS})
+add_library(mpo2static ${MPOLIB_PUBLIC_INCLUDE} ${MPOLIB_SRCS} )
 
 if (MSVC)
 	# see https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
@@ -72,15 +73,29 @@ endif()
 # So that anything that links to our lib gets the headers for all dependencies
 # (configured include files go to the build folder, not the source folder (by design))
 target_include_directories(mpo2static PUBLIC
-        "${CMAKE_SOURCE_DIR}/include")
+
+		# this will be populated when installing but blank when building
+		# for client in install mode
+		$<INSTALL_INTERFACE:include>
+		$<INSTALL_INTERFACE:${lib_dest}> # for config.h file
+
+		# this will be populated when building but blank when installing
+		$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>)
+
 
 # we want libmpo2.a, not libmpo2static.a
 set_target_properties(mpo2static PROPERTIES OUTPUT_NAME "mpo2")
 
 # headers to be installed
-set_target_properties(mpo2static PROPERTIES PUBLIC_HEADER "${MPOLIB_PUBLIC_INCLUDE}")
+# set_target_properties(mpo2static PROPERTIES PUBLIC_HEADER "${MPOLIB_PUBLIC_INCLUDE}")
 
-install(TARGETS mpo2static
-	ARCHIVE DESTINATION lib
-	PUBLIC_HEADER DESTINATION include/mpolib2
-	)
+#install(TARGETS mpo2static
+#	ARCHIVE DESTINATION lib
+#	PUBLIC_HEADER DESTINATION include/mpolib2
+#	)
+
+install(FILES ${MPOLIB_PUBLIC_INCLUDE} DESTINATION "${include_dest}")
+
+# goes into lib_dest so that Debug/Release is taken into account
+install(TARGETS mpo2static EXPORT mpo2static DESTINATION "${lib_dest}")
+install(FILES ${CMAKE_BINARY_DIR}/mpolib_config.h DESTINATION "${lib_dest}")
