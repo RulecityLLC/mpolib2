@@ -2,8 +2,8 @@
 //
 
 #include "stdafx.h"
-#include <mpolib2/mpo_fileio.h>
-#include <mpolib2/mpo_misc.h>
+#include <mpolib/mpo_fileio.h>
+#include <mpolib/mpo_misc.h>
 
 int main(int argc, char *argv[])
 {

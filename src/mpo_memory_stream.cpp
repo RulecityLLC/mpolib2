@@ -1,5 +1,5 @@
 #include <string.h>
-#include <mpolib2/mpo_memory_stream.h>
+#include <mpolib/mpo_memory_stream.h>
 #include "mpo_memory_stream_internal.h"
 
 blocking_sharedptr MpoMemStreamFactory::CreateInstance()

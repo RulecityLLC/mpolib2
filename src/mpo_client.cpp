@@ -35,7 +35,7 @@
 
 #include <string.h>
 #include "mpo_client_internal.h"
-#include <mpolib2/mpo_net_stream.h>
+#include <mpolib/mpo_net_stream.h>
 
 #ifdef DEBUG
 #include <assert.h>

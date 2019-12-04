@@ -25,8 +25,8 @@
 //   the only way I can accept other people's changes to my code is if they
 //   give me full ownership of those changes.
 
-#include <mpolib2/mpo_timer.h>
-#include <mpolib2/mpo_numstr.h>
+#include <mpolib/mpo_timer.h>
+#include <mpolib/mpo_numstr.h>
 #include <stdexcept>
 #include "mpo_timer_internal.h"
 

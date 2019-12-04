@@ -5,7 +5,7 @@
 #ifndef MPO2_MPO_TIMER_INTERNAL_H
 #define MPO2_MPO_TIMER_INTERNAL_H
 
-#include <mpolib2/mpo_timer.h>
+#include <mpolib/mpo_timer.h>
 
 class MpoTimer : public IMpoTimer, public MpoDeleter
 {

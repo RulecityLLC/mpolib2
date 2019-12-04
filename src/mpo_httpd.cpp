@@ -1,7 +1,7 @@
-#include <mpolib2/mpo_httpd.h>
-#include <mpolib2/mpo_timer.h>
-#include <mpolib2/mpo_misc.h>
-#include <mpolib2/mpo_net_stream.h>
+#include <mpolib/mpo_httpd.h>
+#include <mpolib/mpo_timer.h>
+#include <mpolib/mpo_misc.h>
+#include <mpolib/mpo_net_stream.h>
 #include "mpo_httpd_internal.h"
 #include <string.h>	// for memcpy
 #include <stdexcept>	// for runtime_error

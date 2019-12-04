@@ -1,6 +1,6 @@
 #include <string.h>
 #include "mpo_container_internal.h"
-#include <mpolib2/mpo_misc.h>
+#include <mpolib/mpo_misc.h>
 
 // spells "1CON" in ASCII in little-endian format, last digit can be incremented to increase version
 const unsigned int CONTAINER_VERSION = 0x4E4F4331;

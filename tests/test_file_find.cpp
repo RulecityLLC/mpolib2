@@ -1,5 +1,5 @@
 #include "test_headers.h"
-#include <mpolib2/mpo_file_finder.h>
+#include <mpolib/mpo_file_finder.h>
 
 void test_filefind1()
 {

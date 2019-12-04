@@ -5,8 +5,8 @@
 #ifndef MPO2_MPO_HTTP_INTERNAL_H
 #define MPO2_MPO_HTTP_INTERNAL_H
 
-#include <mpolib2/mpo_net_stream.h>
-#include <mpolib2/mpo_deleter.h>
+#include <mpolib/mpo_net_stream.h>
+#include <mpolib/mpo_deleter.h>
 
 enum chunk_status
 {

@@ -1,5 +1,5 @@
-#include <mpolib2/mpo_file_stream.h>
-#include <mpolib2/mpo_misc.h>
+#include <mpolib/mpo_file_stream.h>
+#include <mpolib/mpo_misc.h>
 #include "mpo_file_stream_internal.h"
 #include "mpo_fileio_internal.h"
 #include <stdexcept>

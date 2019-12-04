@@ -1,6 +1,6 @@
-#include <mpolib2/mpo_http.h>
-#include <mpolib2/mpo_misc.h>
-#include <mpolib2/mpo_numstr.h>
+#include <mpolib/mpo_http.h>
+#include <mpolib/mpo_misc.h>
+#include <mpolib/mpo_numstr.h>
 #include "mpo_http_internal.h"
 
 #ifdef DEBUG

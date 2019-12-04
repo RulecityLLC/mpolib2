@@ -1,6 +1,6 @@
-#include <mpolib2/mpo_ipc.h>
-#include <mpolib2/mpo_timer.h>
-#include <mpolib2/mpo_net.h>	// for better_select (unix only)
+#include <mpolib/mpo_ipc.h>
+#include <mpolib/mpo_timer.h>
+#include <mpolib/mpo_net.h>	// for better_select (unix only)
 #include <stdio.h>	// for debugging
 #include <errno.h>	// for debugging
 #include <string.h>	// for strerror_R

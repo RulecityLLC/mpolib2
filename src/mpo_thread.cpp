@@ -1,4 +1,4 @@
-#include <mpolib2/mpo_thread.h>
+#include <mpolib/mpo_thread.h>
 #include <stdexcept>
 #include <assert.h>
 

@@ -5,9 +5,9 @@
 #ifndef MPO2_MPO_CLIENT_INTERNAL_H
 #define MPO2_MPO_CLIENT_INTERNAL_H
 
-#include <mpolib2/mpo_client.h>
-#include <mpolib2/mpo_net.h>
-#include <mpolib2/mpo_deleter.h>
+#include <mpolib/mpo_client.h>
+#include <mpolib/mpo_net.h>
+#include <mpolib/mpo_deleter.h>
 
 // Purpose: So that clients consuming shared lib cannot see our internal implementation
 

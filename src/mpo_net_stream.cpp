@@ -1,5 +1,5 @@
-#include <mpolib2/mpo_net_stream.h>
-#include <mpolib2/mpo_timer.h>
+#include <mpolib/mpo_net_stream.h>
+#include <mpolib/mpo_timer.h>
 
 size_t MpoNetStream::Read(void *buf, size_t stBytesToRead, unsigned int uTimeoutMs)
 {

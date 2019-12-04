@@ -5,8 +5,8 @@
 #ifndef MPO2_MPO_FILEIO_INTERNAL_H
 #define MPO2_MPO_FILEIO_INTERNAL_H
 
-#include <mpolib2/mpo_fileio.h>
-#include <mpolib2/mpo_deleter.h>
+#include <mpolib/mpo_fileio.h>
+#include <mpolib/mpo_deleter.h>
 
 #include <string>
 using namespace std;
@@ -21,7 +21,7 @@ using namespace std;
 #include <sys/types.h>	// for ftruncate
 #endif
 
-#include <mpolib2/mpo_types.h>	// for MPO_UINT64 definition
+#include <mpolib/mpo_types.h>	// for MPO_UINT64 definition
 
 #ifdef WIN32
 #define MPO_HANDLE HANDLE

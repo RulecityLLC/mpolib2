@@ -1,5 +1,5 @@
-#include <mpolib2/mpo_udp.h>
-#include <mpolib2/mpo_numstr.h>
+#include <mpolib/mpo_udp.h>
+#include <mpolib/mpo_numstr.h>
 #include <string.h>	// for memset
 #include <stdexcept>
 

@@ -1,6 +1,5 @@
-#include <mpolib2/mpo_file_finder.h>
+#include <mpolib/mpo_file_finder.h>
 #include "mpo_file_finder_internal.h"
-//#include <mpolib2/mpo_misc.h>	// for string conversion
 #include <assert.h>
 #include <stdexcept>
 

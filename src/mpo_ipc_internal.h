@@ -10,9 +10,9 @@
 #include <windows.h>
 #endif // WIN32
 
-#include <mpolib2/mpo_ipc.h>
-#include <mpolib2/mpo_deleter.h>
-#include <mpolib2/mpo_thread.h>
+#include <mpolib/mpo_ipc.h>
+#include <mpolib/mpo_deleter.h>
+#include <mpolib/mpo_thread.h>
 
 // if defined, we will use pipes in unix.  Otherwise we will use sockets.
 // (I've been having problems with sockets on OSX so I'm trying pipes)

@@ -5,7 +5,7 @@
 #ifndef MPO2_MPO_MEMORY_STREAM_INTERNAL_H
 #define MPO2_MPO_MEMORY_STREAM_INTERNAL_H
 
-#include <mpolib2/mpo_stream.h>
+#include <mpolib/mpo_stream.h>
 #include <string>
 
 using namespace std;

@@ -5,12 +5,12 @@
 #ifndef MPO2_MPO_HTTPD_INTERNAL_H
 #define MPO2_MPO_HTTPD_INTERNAL_H
 
-#include <mpolib2/mpo_httpd.h>
-#include <mpolib2/mpo_deleter.h>
-#include <mpolib2/mpo_stream.h>
-#include <mpolib2/mpo_numstr.h>	// for 64-bit number
-#include <mpolib2/mpo_server.h>
-#include <mpolib2/mpo_thread.h>
+#include <mpolib/mpo_httpd.h>
+#include <mpolib/mpo_deleter.h>
+#include <mpolib/mpo_stream.h>
+#include <mpolib/mpo_numstr.h>	// for 64-bit number
+#include <mpolib/mpo_server.h>
+#include <mpolib/mpo_thread.h>
 
 class mpo_httpd : public IMpoHttpd, public MpoDeleter
 {

@@ -26,11 +26,11 @@
 //   give me full ownership of those changes.
 
 #include <string.h>
-#include <mpolib2/mpo_misc.h>
+#include <mpolib/mpo_misc.h>
 #include "md5_global.h"
 #include "md5.h"
-#include <mpolib2/mpo_numstr.h>
-#include <mpolib2/mpo_fileio.h>
+#include <mpolib/mpo_numstr.h>
+#include <mpolib/mpo_fileio.h>
 #include <stdexcept>
 #include "mpo_fileio_internal.h"
 

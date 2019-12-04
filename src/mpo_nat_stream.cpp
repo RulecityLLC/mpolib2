@@ -1,4 +1,4 @@
-#include <mpolib2/mpo_nat_stream.h>
+#include <mpolib/mpo_nat_stream.h>
 #include <stdexcept>
 #include <assert.h>
 

@@ -5,9 +5,9 @@
 #ifndef MPO2_MPO_CONTAINER_INTERNAL_H
 #define MPO2_MPO_CONTAINER_INTERNAL_H
 
-#include <mpolib2/mpo_container.h>
-#include <mpolib2/mpo_deleter.h>
-#include <mpolib2/mpo_stream.h>
+#include <mpolib/mpo_container.h>
+#include <mpolib/mpo_deleter.h>
+#include <mpolib/mpo_stream.h>
 #include "md5_global.h"
 #include "md5.h"
 

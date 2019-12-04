@@ -7,7 +7,7 @@ CHECK_INCLUDE_FILE (unistd.h HAVE_UNISTD_H)
 configure_file ( ${CMAKE_SOURCE_DIR}/src/mpolib_config_cmake.h ${CMAKE_BINARY_DIR}/mpolib_config.h )
 
 # for convenience
-set(header_path "${CMAKE_SOURCE_DIR}/include/mpolib2")
+set(header_path "${CMAKE_SOURCE_DIR}/include/mpolib")
 
 # headers to be installed
 set(MPOLIB_PUBLIC_INCLUDE

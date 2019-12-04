@@ -32,8 +32,8 @@
 // Main purpose: to support files larger than 4 gigs
 // Secondary purpose: to not rely on MSCVRT dll in windows
 
-#include <mpolib2/mpo_fileio.h>
-#include <mpolib2/mpo_misc.h>	// for string conversions
+#include <mpolib/mpo_fileio.h>
+#include <mpolib/mpo_misc.h>	// for string conversions
 #include "mpo_fileio_internal.h"
 #include <stdexcept>
 

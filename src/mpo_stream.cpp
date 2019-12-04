@@ -1,5 +1,5 @@
-#include <mpolib2/mpo_stream.h>
-#include <mpolib2/mpo_timer.h>
+#include <mpolib/mpo_stream.h>
+#include <mpolib/mpo_timer.h>
 #include <string.h>	// for memcpy
 
 nonblocking_sharedptr NonblockingStreamTester::GetInstance(const void *buf, size_t bufsize)
