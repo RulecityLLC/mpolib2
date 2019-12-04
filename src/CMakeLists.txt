@@ -63,20 +63,20 @@ set(MPOLIB_SRCS
 		md5c.cpp
         )
 
-add_library(mpo2static ${MPOLIB_PUBLIC_INCLUDE} ${MPOLIB_SRCS} )
+add_library(mpo2 ${MPOLIB_PUBLIC_INCLUDE} ${MPOLIB_SRCS} )
 
 if (MSVC)
 	# see https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
-	target_compile_options(mpo2static PUBLIC "/Zc:__cplusplus")
+	target_compile_options(mpo2 PUBLIC "/Zc:__cplusplus")
 endif()
 
 # So that anything that links to our lib gets the headers for all dependencies
 # (configured include files go to the build folder, not the source folder (by design))
-target_include_directories(mpo2static PUBLIC
+target_include_directories(mpo2 PUBLIC
 
 		# this will be populated when installing but blank when building
 		# for client in install mode
-		$<INSTALL_INTERFACE:include>
+		$<INSTALL_INTERFACE:${include_dest}>
 		$<INSTALL_INTERFACE:${lib_dest}> # for config.h file
 
 		# this will be populated when building but blank when installing
@@ -84,18 +84,18 @@ target_include_directories(mpo2static PUBLIC
 
 
 # we want libmpo2.a, not libmpo2static.a
-set_target_properties(mpo2static PROPERTIES OUTPUT_NAME "mpo2")
+#set_target_properties(mpo2 PROPERTIES OUTPUT_NAME "mpo2")
 
 # headers to be installed
-# set_target_properties(mpo2static PROPERTIES PUBLIC_HEADER "${MPOLIB_PUBLIC_INCLUDE}")
+# set_target_properties(mpo2 PROPERTIES PUBLIC_HEADER "${MPOLIB_PUBLIC_INCLUDE}")
 
-#install(TARGETS mpo2static
+#install(TARGETS mpo2
 #	ARCHIVE DESTINATION lib
 #	PUBLIC_HEADER DESTINATION include/mpolib2
 #	)
 
-install(FILES ${MPOLIB_PUBLIC_INCLUDE} DESTINATION "${include_dest}")
+install(FILES ${MPOLIB_PUBLIC_INCLUDE} DESTINATION "${include_dest}/mpolib")
 
 # goes into lib_dest so that Debug/Release is taken into account
-install(TARGETS mpo2static EXPORT mpo2static DESTINATION "${lib_dest}")
+install(TARGETS mpo2 EXPORT mpo2 DESTINATION "${lib_dest}")
 install(FILES ${CMAKE_BINARY_DIR}/mpolib_config.h DESTINATION "${lib_dest}")
