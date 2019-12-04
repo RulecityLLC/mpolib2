@@ -30,4 +30,4 @@ add_subdirectory("tests")
 configure_file(mpolib2-config-version.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/mpolib2-config-version.cmake @ONLY)
 
 install(FILES mpolib2-config.cmake ${CMAKE_CURRENT_BINARY_DIR}/mpolib2-config-version.cmake DESTINATION ${main_lib_dest})
-install(EXPORT mpolib2 DESTINATION "${lib_dest}")
+install(EXPORT mpo2static FILE mpolib2.cmake DESTINATION "${lib_dest}")
