@@ -35,7 +35,9 @@
 #include "mpo_deleter.h"
 #include "mpo_dll.h"
 #include <string>
-using namespace std;
+
+using std::string;
+using std::wstring;
 
 // General purpose file I/O class that serves as a nice replacement to calling mpo_fileio C-styled functions directly
 // The purpose of this class is so that this class can easily be mocked out for unit testing.
