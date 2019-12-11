@@ -37,23 +37,12 @@
 #include <string>
 #include <list>
 
-using namespace std;
-
-// if we're on C++11, then unique_ptr is standard
-#if __cplusplus >= 199711L
-
-#include <memory>
-#define SHARED_ARRAY(T) std::unique_ptr<T []>
-
-#else
-
-#include <boost/shared_array.hpp>
-using namespace boost;
-
-#define SHARED_ARRAY(T) boost::shared_array<T>
-
-#endif
-
+using std::allocator;
+using std::string;
+using std::basic_string;
+using std::char_traits;
+using std::list;
+using std::wstring;
 
 #if WCHAR_MAX > 0xFFFFu
 typedef wchar_t mpo_wchar_t;

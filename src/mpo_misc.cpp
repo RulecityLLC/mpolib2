@@ -27,6 +27,7 @@
 
 #include <string.h>
 #include <mpolib/mpo_misc.h>
+#include "mpo_misc_internal.h"
 #include "md5_global.h"
 #include "md5.h"
 #include <mpolib/mpo_numstr.h>

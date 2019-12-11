@@ -2,6 +2,7 @@
 #include <mpolib/mpo_numstr.h>
 #include <mpolib/mpo_timer.h>
 #include <mpolib/mpo_misc.h>	// for unicode conversion
+#include "mpo_misc_internal.h"
 #include <stdexcept>
 
 #ifndef WIN32
