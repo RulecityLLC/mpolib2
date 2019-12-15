@@ -1,14 +1,16 @@
+#include <mpolib/mpo_misc.h>
 #include <mpolib/mpo_file_finder.h>
 #include "mpo_file_finder_internal.h"
 #include <assert.h>
 #include <stdexcept>
-
 
 #ifndef WIN32
 #include <sys/stat.h>
 #include <errno.h>
 #include <string.h>
 #endif
+
+using std::runtime_error;
 
 MpoFindResultSPtr MpoFindResult::GetInstance(const wstring &wstrName, bool bIsDirectory)
 {

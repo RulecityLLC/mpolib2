@@ -64,4 +64,30 @@ public:
     static IMpoFileIOSPtr CreateInstance();
 };
 
+// static version of the above class, for convenience
+class MpoFileIO
+{
+public:
+    static bool FileExists(const string &wstrFileExists);
+
+    static bool FileExists(const wstring &strFileExists);
+
+    static void MkDir(const wstring &wstrDirName);
+
+    static void MkDir(const string &strDirName);
+
+    static void RmDir(const wstring &wstrDirName);
+
+    static void RmDir(const string &strDirName);
+
+    static MPO_UINT64 GetFreeBytes(const wstring &wstrDirName);
+
+    static MPO_UINT64 GetFreeBytes(const string &strDirName);
+
+    static void Delete(const wstring &wstrFileName);
+
+    static void Delete(const string &strFileName);
+};
+
+
 #endif // MPO_FILEIO_H

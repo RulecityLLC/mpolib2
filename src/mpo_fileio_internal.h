@@ -119,7 +119,7 @@ EXPORT_ME bool mpo_delete(const wchar_t *cwpszFileName);
 EXPORT_ME bool mpo_move(const char *cpszDstName, const char *cpszSrcName);
 EXPORT_ME bool mpo_move(const wchar_t *cpszDstName, const wchar_t *cpszSrcName);
 
-class MpoFileIO : public IMpoFileIO, public MpoDeleter
+class MpoFileIOInternal : public IMpoFileIO, public MpoDeleter
 {
 public:
 static IMpoFileIOSPtr CreateInstance();
@@ -135,8 +135,8 @@ MPO_UINT64 GetFreeBytes(const wstring &wstrDirName);
 void Delete(const wstring &wstrFileName);
 
 private:
-	MpoFileIO();
-	virtual ~MpoFileIO();
+    MpoFileIOInternal();
+	virtual ~MpoFileIOInternal();
 
 	void DeleteInstance() { delete this; }
 };
