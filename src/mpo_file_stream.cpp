@@ -9,7 +9,10 @@ blocking_sharedptr MpoFileStreamFactory::CreateInstance(const char *filename, op
     blocking_sharedptr pRes = MpoFileStream::GetInstance(filename, flags);
     if (pRes.get() == nullptr)
     {
-        throw runtime_error("File could not be opened");
+        string msg = "File ";
+        msg += filename;
+        msg += " could not be opened";
+        throw runtime_error(msg);
     }
     return pRes;
 }
@@ -19,7 +22,11 @@ blocking_sharedptr MpoFileStreamFactory::CreateInstance(const wstring &filename,
     blocking_sharedptr pRes = MpoFileStream::GetInstance(filename, flags);
     if (pRes.get() == nullptr)
     {
-        throw runtime_error("File could not be opened");
+        string msg = "File ";
+        msg += mpom::str_conv(filename);
+        msg += " could not be opened";
+
+        throw runtime_error(msg);
     }
     return pRes;
 }
