@@ -2,18 +2,33 @@ pipeline {
     agent any
 
 	environment {
-		CMAKE_BUILD_TYPE=Release
-		CMAKE_SYSTEM_PREFIX_PATH=install
-		MAKE_THREADS=4
+		CMAKE_BUILD_TYPE='Release'
+		MAKE_THREADS='4'
 	}
 
     stages {
         stage('Build') {
             steps {			
-				sh 'cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${CMAKE_SYSTEM_PREFIX_PATH}/mpo ..'
-				# sh 'make -j ${MAKE_THREADS}'
+				sh 'rm -rf install'
+				sh 'rm -rf build'
+				sh 'mkdir build'
+				sh "echo ${env.WORKSPACE}"
+				sh "cd build && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${env.WORKSPACE}/install/mpo .."
+				sh 'cd build && make -j ${MAKE_THREADS}'
             }
         }
+        stage('Test') {
+            steps {			
+				sh 'cd build/tests && ./test_mpolib'
+            }
+        }
+        stage('Package') {
+            steps {			
+				sh 'cd build && make install'
+				sh 'tar cvfz ci/mpolib2Install.tar.gz install'
+                archiveArtifacts artifacts: 'ci/*.gz', onlyIfSuccessful: true, fingerprint: true				
+            }
+        }		
     }
 }
 
