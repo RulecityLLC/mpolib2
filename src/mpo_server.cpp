@@ -30,6 +30,7 @@
 
 #include "mpo_server_internal.h"
 #include <string.h>	// for memset
+#include <stdexcept>
 
 #ifdef WIN32
 #else
@@ -37,6 +38,8 @@
 //#include <sys/ioctl.h>
 #include <fcntl.h>
 #endif
+
+using std::runtime_error;
 
 IMpoServerSPtr MpoServerFactory::CreateInstance()
 {

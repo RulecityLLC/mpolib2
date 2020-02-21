@@ -8,6 +8,7 @@
 #ifndef WIN32
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <unistd.h> // for close
 #include <signal.h>
 
 #include <string.h>
@@ -504,7 +505,7 @@ MpoProcess::waitr MpoProcess::Wait(int *exit_code, unsigned int uTimeoutMs)
 	}
 	// else BUSY (TODO handle errors too!)
 #else
-	unsigned int uStartTime = refresh_timer();
+	unsigned int uStartTime = MpoTimerUtil::RefreshTimer();
 	int status = 0;
 
 	// this needs to be a 'do/while' to ensure the loop goes through at least one time
@@ -548,9 +549,9 @@ MpoProcess::waitr MpoProcess::Wait(int *exit_code, unsigned int uTimeoutMs)
 		//  so we treat it as a timeout.
 		else
 		{
-			make_delay(1);	// don't hog CPU
+			MpoTimerUtil::MakeDelay(1);	// don't hog CPU
 		}
-	} while (get_elapsed_ms(uStartTime) < uTimeoutMs);
+	} while (MpoTimerUtil::GetElapsedMs(uStartTime) < uTimeoutMs);
 #endif // WIN32
 
 	return res;

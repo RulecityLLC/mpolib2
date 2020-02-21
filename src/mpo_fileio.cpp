@@ -806,21 +806,67 @@ bool mpo_move(const wchar_t *cpszDstName, const wchar_t *cpszSrcName)
 
 ////////////////////////////////////////////
 
-//////////////////////////////////////////////////////
-
 IMpoFileIOSPtr MpoFileIOFactory::CreateInstance()
 {
-    return MpoFileIO::CreateInstance();
+    return MpoFileIOInternal::CreateInstance();
 }
 
-IMpoFileIOSPtr MpoFileIO::CreateInstance()
+IMpoFileIOSPtr MpoFileIOInternal::CreateInstance()
 {
-    return IMpoFileIOSPtr(new MpoFileIO(), MpoFileIO::deleter());
+    return IMpoFileIOSPtr(new MpoFileIOInternal(), MpoFileIOInternal::deleter());
+}
+
+bool MpoFileIOInternal::FileExists(const wstring &wstrFileExists)
+{
+    return MpoFileIO::FileExists(wstrFileExists);
+}
+
+void MpoFileIOInternal::MkDir(const wstring &wstrDirName)
+{
+    MpoFileIO::MkDir(wstrDirName);
+}
+
+void MpoFileIOInternal::RmDir(const wstring &wstrDirName)
+{
+    MpoFileIO::RmDir(wstrDirName);
+}
+
+MPO_UINT64 MpoFileIOInternal::GetFreeBytes(const wstring &wstrDirName)
+{
+    return MpoFileIO::GetFreeBytes(wstrDirName);
+}
+
+void MpoFileIOInternal::Delete(const wstring &wstrFileName)
+{
+    MpoFileIO::Delete(wstrFileName);
+}
+
+MpoFileIOInternal::MpoFileIOInternal()
+{
+}
+
+MpoFileIOInternal::~MpoFileIOInternal()
+{
+}
+
+//// STATIC VERSIONS
+
+bool MpoFileIO::FileExists(const string &strFileExists)
+{
+    return mpo_file_exists(strFileExists.c_str());
 }
 
 bool MpoFileIO::FileExists(const wstring &wstrFileExists)
 {
     return mpo_file_exists(wstrFileExists.c_str());
+}
+
+void MpoFileIO::MkDir(const string &strDirName)
+{
+    if (!mpo_mkdir(strDirName.c_str()))
+    {
+        throw runtime_error("MkDir failed");
+    }
 }
 
 void MpoFileIO::MkDir(const wstring &wstrDirName)
@@ -831,12 +877,30 @@ void MpoFileIO::MkDir(const wstring &wstrDirName)
     }
 }
 
+void MpoFileIO::RmDir(const string &strDirName)
+{
+    if (!mpo_rmdir(strDirName.c_str()))
+    {
+        throw runtime_error("RmDir failed");
+    }
+}
+
 void MpoFileIO::RmDir(const wstring &wstrDirName)
 {
     if (!mpo_rmdir(wstrDirName.c_str()))
     {
         throw runtime_error("RmDir failed");
     }
+}
+
+MPO_UINT64 MpoFileIO::GetFreeBytes(const string &strDirName)
+{
+    MPO_UINT64 u64Res;
+    if (!mpo_get_freespace(strDirName.c_str(), &u64Res))
+    {
+        throw runtime_error("Get free space failed");
+    }
+    return u64Res;
 }
 
 MPO_UINT64 MpoFileIO::GetFreeBytes(const wstring &wstrDirName)
@@ -849,18 +913,18 @@ MPO_UINT64 MpoFileIO::GetFreeBytes(const wstring &wstrDirName)
     return u64Res;
 }
 
+void MpoFileIO::Delete(const string &strFileName)
+{
+    if (!mpo_delete(strFileName.c_str()))
+    {
+        throw runtime_error("Delete failed");
+    }
+}
+
 void MpoFileIO::Delete(const wstring &wstrFileName)
 {
     if (!mpo_delete(wstrFileName.c_str()))
     {
         throw runtime_error("Delete failed");
     }
-}
-
-MpoFileIO::MpoFileIO()
-{
-}
-
-MpoFileIO::~MpoFileIO()
-{
 }

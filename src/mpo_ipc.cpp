@@ -493,7 +493,7 @@ bool MpoPipeEx::NonBlockingRead(void *pBuf, size_t stBytesToRead, size_t *pstByt
 	if ((*m_piBufferSizeR > 0) || ((*m_piBufferSizeR + ((int) *m_pstPendingBytesToBeWrittenR)) > 0))
 #else
 	// this is necessary to solve the problem on unix (see notes in BlockingWrite)
-	if (m_pPipe->WouldReadNotBlock())
+	if (((MpoPipe *)m_pPipe)->WouldReadNotBlock())
 #endif
 	{
 		// This is ONLY safe because we are confident that this call will NOT block.

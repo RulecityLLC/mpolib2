@@ -3,6 +3,9 @@
 
 #ifdef WIN32
 #include <windows.h>
+#else
+#include <sys/types.h>
+#include <dirent.h>
 #endif
 
 class MpoFindResult : public IMpoFindResult, public MpoDeleter

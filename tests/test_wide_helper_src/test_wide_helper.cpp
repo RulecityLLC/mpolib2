@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 
 	LocalFree(szArglist);
 #else
-	bool bFileExists = mpo_file_exists(argv[1]);
+	bool bFileExists = MpoFileIO::FileExists(argv[1]);
 #endif
 
 	// if file exists, then we were able to translate the wide filename correctly
