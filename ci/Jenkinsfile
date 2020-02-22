@@ -25,8 +25,8 @@ pipeline {
         stage('Package') {
             steps {			
 				sh 'cd build && make install'
-				sh 'tar cvfz ci/mpolib2Install.tar.gz install/mpo'
-                archiveArtifacts artifacts: 'ci/*.gz', onlyIfSuccessful: true, fingerprint: true				
+				sh 'cd install && tar cvfz ../ci/mpolib2Install.tar.gz mpo'
+                archiveArtifacts artifacts: 'ci/mpolib2Install.tar.gz', onlyIfSuccessful: true, fingerprint: true				
             }
         }		
     }
