@@ -1,6 +1,6 @@
 pipeline {
-    agent any
-
+    agent { label 'cmake-linux' }
+	
 	environment {
 		CMAKE_BUILD_TYPE='Release'
 		MAKE_THREADS='4'
