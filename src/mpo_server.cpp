@@ -83,7 +83,7 @@ void MpoServer::Initialize(unsigned int port, const char *cpszHostIP4)
 		if (setsockopt(m_listening_socket, SOL_SOCKET, SO_REUSEADDR, (const char *) &nonzero, sizeof(nonzero)) == 0)
 		{
 			// bind to a port and verify
-			if (bind(m_listening_socket, (const sockaddr *) &m_servaddr, (int) sizeof(m_servaddr)) == 0)
+			if (bind(m_listening_socket, (const sockaddr *) &m_servaddr, (socklen_t) sizeof(m_servaddr)) == 0)
 			{
 				// listen on that port and verify
 				// (5 is the 'backlog')

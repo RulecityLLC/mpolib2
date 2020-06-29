@@ -181,7 +181,7 @@ bool MpoUdpReceiver::Init()
 	m_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	memset(m_addr.sin_zero,'\0',sizeof m_addr.sin_zero);
 
-	if (bind(m_iSocket, (const sockaddr *) &m_addr, (int) sizeof(m_addr)) != -1)
+	if (bind(m_iSocket, (const sockaddr *) &m_addr, (socklen_t) sizeof(m_addr)) != -1)
 	{
 		bRes = true;
 	}
@@ -299,7 +299,7 @@ void MpoUdp::Init()
 	m_sendaddr.sin_addr.s_addr = INADDR_ANY;
 	memset(m_sendaddr.sin_zero,'\0',sizeof(m_sendaddr.sin_zero));
 	
-	if(bind(m_iSocket, (const sockaddr*) &m_sendaddr, (int) sizeof(m_sendaddr)) == -1)
+	if(bind(m_iSocket, (const sockaddr*) &m_sendaddr, (socklen_t) sizeof(m_sendaddr)) == -1)
 	{
 		throw runtime_error("Bind failed");
 	}
