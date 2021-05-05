@@ -13,7 +13,7 @@ pipeline {
 				sh 'rm -rf build'
 				sh 'mkdir build'
 				sh "echo ${env.WORKSPACE}"
-				sh "cd build && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${env.WORKSPACE}/install/mpo -DCMAKE_SYSTEM_NAME=Darwin -DCMAKE_C_COMPILER=o64-clang -DCMAKE_CXX_COMPILER=o64-clang++ -DCMAKE_AR=`which x86_64-apple-darwin20.4-ar` -DCMAKE_RANLIB=`which x86_64-apple-darwin20.4-ranlib` .."
+				sh "cd build && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${env.WORKSPACE}/install/mpo .."
 				sh 'cd build && make -j ${MAKE_THREADS}'
             }
         }
