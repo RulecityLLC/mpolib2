@@ -72,9 +72,15 @@ public:
 
     static bool FileExists(const wstring &strFileExists);
 
+    static wstring GetCurrentDir();
+
     static void MkDir(const wstring &wstrDirName);
 
     static void MkDir(const string &strDirName);
+
+    static void Move(const wstring &wstrDst, const wstring &wstrSrc);
+
+	static void Move(const string &wstrDst, const string &wstrSrc);
 
     static void RmDir(const wstring &wstrDirName);
 

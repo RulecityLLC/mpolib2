@@ -17,6 +17,11 @@ blocking_sharedptr MpoFileStreamFactory::CreateInstance(const char *filename, op
     return pRes;
 }
 
+blocking_sharedptr MpoFileStreamFactory::GetInstance(const char *filename, open_type flags)
+{
+	return MpoFileStream::GetInstance(filename, flags);
+}
+
 blocking_sharedptr MpoFileStreamFactory::CreateInstance(const wstring &filename, open_type flags)
 {
     blocking_sharedptr pRes = MpoFileStream::GetInstance(filename, flags);
@@ -30,6 +35,41 @@ blocking_sharedptr MpoFileStreamFactory::CreateInstance(const wstring &filename,
     }
     return pRes;
 }
+
+blocking_sharedptr MpoFileStreamFactory::GetInstance(const wstring &filename, open_type flags)
+{
+	return MpoFileStream::GetInstance(filename, flags);
+}
+
+IMpoFileStreamSPtr MpoFileStreamFactory::CreateInstanceFileStream(const char* filename, open_type flags)
+{
+	IMpoFileStreamSPtr pRes = MpoFileStream::GetInstanceFileStream(filename, flags);
+	if (pRes.get() == nullptr)
+	{
+		string msg = "File ";
+		msg += filename;
+		msg += " could not be opened";
+
+		throw runtime_error(msg);
+	}
+	return pRes;
+}
+
+IMpoFileStreamSPtr MpoFileStreamFactory::CreateInstanceFileStream(const wstring& filename, open_type flags)
+{
+	IMpoFileStreamSPtr pRes = MpoFileStream::GetInstanceFileStream(filename, flags);
+	if (pRes.get() == nullptr)
+	{
+		string msg = "File ";
+		msg += mpom::str_conv(filename);
+		msg += " could not be opened";
+
+		throw runtime_error(msg);
+	}
+	return pRes;
+}
+
+//////////////////////////////////
 
 blocking_sharedptr MpoFileStream::GetInstance(const char *filename, open_type flags)
 {
@@ -71,6 +111,46 @@ blocking_sharedptr MpoFileStream::GetInstance(const wstring &filename, open_type
 	return pRes;
 }
 
+IMpoFileStreamSPtr MpoFileStream::GetInstanceFileStream(const char *filename, open_type flags)
+{
+	IMpoFileStreamSPtr pRes;
+
+	mpo_io *io = mpo_open(filename, flags);
+
+	// if file can be opened successfully
+	if (io)
+	{
+		MpoFileStream *pInstance = new MpoFileStream();
+		if (pInstance)
+		{
+			pInstance->m_io = io;
+			pRes = IMpoFileStreamSPtr(pInstance, MpoFileStream::deleter());
+		}
+	}
+
+	return pRes;
+}
+
+IMpoFileStreamSPtr MpoFileStream::GetInstanceFileStream(const wstring &filename, open_type flags)
+{
+	IMpoFileStreamSPtr pRes;
+
+	mpo_io *io = mpo_open(filename.c_str(), flags);
+
+	// if file can be opened successfully
+	if (io)
+	{
+		MpoFileStream *pInstance = new MpoFileStream();
+		if (pInstance)
+		{
+			pInstance->m_io = io;
+			pRes = IMpoFileStreamSPtr(pInstance, MpoFileStream::deleter());
+		}
+	}
+
+	return pRes;
+}
+
 size_t MpoFileStream::Read(void *buf, size_t stBytesToRead)
 {
 	MPO_BYTES_READ uBytesRead = 0;
@@ -89,6 +169,15 @@ bool MpoFileStream::Seek(MPO_INT64 i64Offset, seek_type origin)
 {
 	bool bRes = mpo_seek(i64Offset, origin, m_io);
 	return bRes;
+}
+
+void MpoFileStream::Truncate(MPO_UINT64 u64FileSize)
+{
+	bool bRes = mpo_truncate(u64FileSize, m_io);
+	if (!bRes)
+	{
+		throw runtime_error("Truncate failed");
+	}
 }
 
 MPO_UINT64 MpoFileStream::GetLength()

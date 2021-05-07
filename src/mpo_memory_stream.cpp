@@ -43,6 +43,16 @@ blocking_sharedptr MpoMemStream::CreateInstance(void *pBuf, size_t stBufLength)
 	return pRes;
 }
 
+blocking_sharedptr MpoMemStreamFactory::GetInstance()
+{
+	return CreateInstance();
+}
+
+blocking_sharedptr MpoMemStreamFactory::GetInstance(void* pBuf, size_t stBufLength)
+{
+	return CreateInstance(pBuf, stBufLength);
+}
+
 size_t MpoMemStream::Read(void *buf, size_t stBytesToRead)
 {
 	size_t stRes = 0;

@@ -8,30 +8,36 @@
 #include <mpolib/mpo_stream.h>
 #include "mpo_fileio_internal.h"
 
-class MpoFileStream : public IBlockingStream, public MpoDeleter
+class MpoFileStream : public IMpoFileStream, public MpoDeleter
 {
 public:
-static blocking_sharedptr GetInstance(const char *filename, open_type flags);
+	static blocking_sharedptr GetInstance(const char *filename, open_type flags);
 
-static blocking_sharedptr GetInstance(const wstring &filename, open_type flags);
+	static blocking_sharedptr GetInstance(const wstring &filename, open_type flags);
 
-size_t Read(void *buf, size_t stBytesToRead);
+	static IMpoFileStreamSPtr GetInstanceFileStream(const char *filename, open_type flags);
 
-size_t Write(const void *buf, size_t stBytesToWrite);
+	static IMpoFileStreamSPtr GetInstanceFileStream(const wstring &filename, open_type flags);
 
-bool Seek(MPO_INT64 i64Offset, seek_type origin);
+	size_t Read(void *buf, size_t stBytesToRead);
 
-// returns length of stream
-MPO_UINT64 GetLength();
+	size_t Write(const void *buf, size_t stBytesToWrite);
 
-// returns current position within stream
-MPO_UINT64 GetPosition();
+	bool Seek(MPO_INT64 i64Offset, seek_type origin);
 
-bool CanRead();
+	void Truncate(MPO_UINT64 u64FileSize) override;
 
-bool CanWrite();
+	// returns length of stream
+	MPO_UINT64 GetLength();
 
-bool CanSeek();
+	// returns current position within stream
+	MPO_UINT64 GetPosition();
+
+	bool CanRead();
+
+	bool CanWrite();
+
+	bool CanSeek();
 
 private:
 	MpoFileStream();
@@ -39,7 +45,7 @@ private:
 
 	void DeleteInstance() { delete this; }
 
-mpo_io *m_io;
+	mpo_io *m_io;
 
 };
 

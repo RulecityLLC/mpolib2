@@ -861,6 +861,16 @@ bool MpoFileIO::FileExists(const wstring &wstrFileExists)
     return mpo_file_exists(wstrFileExists.c_str());
 }
 
+wstring MpoFileIO::GetCurrentDir()
+{
+	wstring result;
+	if (!mpo_get_curdir(result))
+	{
+		throw runtime_error("GetCurrentDir failed");
+	}
+	return result;
+}
+
 void MpoFileIO::MkDir(const string &strDirName)
 {
     if (!mpo_mkdir(strDirName.c_str()))
@@ -875,6 +885,22 @@ void MpoFileIO::MkDir(const wstring &wstrDirName)
     {
         throw runtime_error("MkDir failed");
     }
+}
+
+void MpoFileIO::Move(const wstring& wstrDst, const wstring& wstrSrc)
+{
+	if (!mpo_move(wstrDst.c_str(), wstrSrc.c_str()))
+	{
+		throw runtime_error("Move failed");
+	}
+}
+
+void MpoFileIO::Move(const string& wstrDst, const string& wstrSrc)
+{
+	if (!mpo_move(wstrDst.c_str(), wstrSrc.c_str()))
+	{
+		throw runtime_error("Move failed");
+	}
 }
 
 void MpoFileIO::RmDir(const string &strDirName)
