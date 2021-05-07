@@ -30,14 +30,3 @@ TEST_CASE(server1)
 	// workaround WINE quirky behavior
 	TEST_CHECK((strIP  ==  "127.0.0.1") || (strIP == "127.12.34.56"));
 }
-
-TEST_CASE(timer)
-{
-	unsigned int uMs = 100;
-	unsigned int uStartMs = MpoTimerUtil::RefreshTimer();
-	MpoTimerUtil::MakeDelay(uMs);
-	unsigned int uDiff = MpoTimerUtil::RefreshTimer() - uStartMs;
-	int iAbs = (int) uDiff - uMs;
-	iAbs = abs(iAbs);
-	TEST_CHECK(iAbs < 20);
-}
