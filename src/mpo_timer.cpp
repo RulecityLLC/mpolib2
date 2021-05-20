@@ -41,6 +41,7 @@ static bool g_bPerfFreqInitialized = false;
 #include <unistd.h>
 #endif
 
+using std::runtime_error;
 
 unsigned int MpoTimerUtil::RefreshTimer()
 {

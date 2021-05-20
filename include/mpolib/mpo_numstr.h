@@ -45,7 +45,7 @@ MPO_COMPILE_TIME_ASSERT(sint64, sizeof(MPO_INT64) == 8);
 
 #include <string>
 
-using namespace std;
+using std::string;
 
 class EXPORT_ME numstr
 {
