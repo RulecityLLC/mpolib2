@@ -14,7 +14,7 @@ pipeline {
 				sh 'mkdir build'
 				sh "echo ${env.WORKSPACE}"
 				sh "cd build && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${env.WORKSPACE}/install/mpo .."
-				sh 'cd build && make -j ${MAKE_THREADS}'
+				sh 'cd build && make -j ${MAKE_THREADS} VERBOSE=1'
             }
         }
         stage('Test') {
