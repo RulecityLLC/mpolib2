@@ -943,7 +943,7 @@ void MpoFileIO::Delete(const string &strFileName)
 {
     if (!mpo_delete(strFileName.c_str()))
     {
-        throw runtime_error("Delete failed");
+        throw runtime_error("Delete failed: " + strFileName);
     }
 }
 
@@ -951,6 +951,6 @@ void MpoFileIO::Delete(const wstring &wstrFileName)
 {
     if (!mpo_delete(wstrFileName.c_str()))
     {
-        throw runtime_error("Delete failed");
+        throw runtime_error("Delete failed:" + mpom::str_conv(wstrFileName));
     }
 }
