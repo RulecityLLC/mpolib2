@@ -12,6 +12,7 @@ These instructions assume you are installing to '/tmp/cmake_install/mpo'.  For W
 
 ```
 mkdir build
+cd build
 cmake -DCMAKE_SYSTEM_PREFIX_PATH=/tmp/cmake_install -DCMAKE_INSTALL_PREFIX=/tmp/cmake_install/mpo ..
 make install
 ```
